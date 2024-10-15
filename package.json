@@ -1,0 +1,13 @@
+{
+  "name": "node-nix",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node out/main.mjs"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0"
+  }
+}
