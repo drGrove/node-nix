@@ -57,6 +57,7 @@
             mkdir -p            $out/lib/
             cp -r out           $out/lib/
             cp    package.json  $out/lib/
+            cp -r node_modules  $out/lib/
           '';
 
           # Set metadata
@@ -69,7 +70,7 @@
           # Fixed output derivation. Means we can do impure things like access the internet (for NPM to work) as long as we lock down the output hash
           outputHashAlgo = "sha256";
           outputHashMode = "recursive";
-          outputHash = "sha256-mt33onikZV9lvu5NemJEryy4nVH6/l7vHSruiZNMwW8=";
+          outputHash = "sha256-Zah7U1zkOQdeIduKrWN3/Yryxa4wS+MK20FQIgUvjSA=";
         };
       });
 }
