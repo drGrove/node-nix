@@ -9,7 +9,7 @@ jobs:
     #  Check out repo
     - uses: actions/checkout@v4
     #  Install nix
-    - uses: nixbuild/nix-quick-install-action@v30
+    - uses: nixbuild/nix-quick-install-action@v29
     - run: nix build
     - run: nix profile install github:tiiuae/sbomnix#sbomnix 
     #  Update to include your target
