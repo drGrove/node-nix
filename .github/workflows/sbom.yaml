@@ -17,9 +17,11 @@ jobs:
     - uses: anchore/sbom-action@v0
       with:
         output-file project.sbom.json 
+    # Install manifest-cli
+    - run: docker create --name temp-container ghcr.io/manifest-cyber/manifest-cli:v0.18.6@sha256:5d00971905bfe41a1be5d75915acc3151a1f61d06184bf8cddd708cfc2d3a085 
+    - run: docker cp temp-container:/usr/bin/manifest-cli /usr/bin/manifest-cli
     # Merge the sbom using the manifest-cli
-    - uses: docker://ghcr.io/manifest-cyber/manifest-cli:v0.18.6@sha256:5d00971905bfe41a1be5d75915acc3151a1f61d06184bf8cddd708cfc2d3a085
-      run: |
+    - run: |
         /usr/bin/manifest-cli \
           merge \
           --publish=false \
