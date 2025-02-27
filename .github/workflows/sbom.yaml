@@ -1,0 +1,36 @@
+name: "Generate SBOM"
+on:
+  pull_request:
+  push:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    #  Check out repo
+    - uses: actions/checkout@v4
+    #  Install nix
+    - uses: nixbuild/nix-quick-install-action@v30
+    - run: nix build
+    - run: nix profile install github:tiiuae/sbomnix#sbomnix 
+    #  Update to include your target
+    - run: sbomnix --buildtime .#
+    - uses: anchore/sbom-action@v0
+      with:
+        output-file project.sbom.json 
+    # Merge the sbom using the manifest-cli
+    - uses: docker://ghcr.io/manifest-cyber/manifest-cli:v0.18.6@sha256:5d00971905bfe41a1be5d75915acc3151a1f61d06184bf8cddd708cfc2d3a085
+      run: |
+        /usr/bin/manifest-cli \
+          merge \
+          --publish=false \
+          -o spdx \
+          -f repo.sbom.json \
+          sbom.spdx.json \
+          project.sbom.json
+    - uses: actions/upload-artifact@v4
+      with:
+        name: sboms
+        path: |
+          repo.sbom.json
+          project.sbom.json
+          sbom.spdx.json
